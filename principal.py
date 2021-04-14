@@ -1,10 +1,14 @@
-try:
-    with open('dados/contatos.csv', encoding='latin_1') as arquivo_contatos:
-        for linha in arquivo_contatos:
-            print(linha, end='')
+arquivo = open('dados/contatos-escrita.csv', encoding='latin_1', mode='a+')
 
-except FileNotFoundError:
-    print('Arquivo não encontrado')
+print(type(arquivo.buffer))
 
-except PermissionError:
-    print('Sem permissão de escrita')
+
+texto_em_bytes = bytes('Esse é um texto em bytes', 'latin_1')
+# print(texto_em_bytes)
+# print(type(texto_em_bytes))
+
+contato = bytes('15,Verônica,veronica@veronica.com.br\n', 'latin_1')
+arquivo.buffer.write(contato)
+
+
+arquivo.close()
