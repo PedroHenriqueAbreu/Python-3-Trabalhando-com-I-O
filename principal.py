@@ -1,14 +1,17 @@
-arquivo = open('dados/contatos-escrita.csv', encoding='latin_1', mode='a+')
+import contatos_utils
 
-print(type(arquivo.buffer))
+try:
+    contatos = contatos_utils.csv_para_contatos('dados/contatos.csv')
 
+    contatos_utils.contatos_para_pickle(contatos, 'dados/contatos.pickle')
+    contatos = contatos_utils.pickle_para_contatos('dados/contatos.pickle')
 
-texto_em_bytes = bytes('Esse é um texto em bytes', 'latin_1')
-# print(texto_em_bytes)
-# print(type(texto_em_bytes))
+    # contatos_utils.contatos_para_json(contatos, 'dados/contatos.json')
+    # contatos = contatos_utils.json_para_contatos('dados/contatos.json')
 
-contato = bytes('15,Verônica,veronica@veronica.com.br\n', 'latin_1')
-arquivo.buffer.write(contato)
-
-
-arquivo.close()
+    for contato in contatos:
+        print(f'{contato.id} - {contato.nome} - {contato.email}')
+except FileNotFoundError:
+    print('Arquivo não encontrado')
+except PermissionError:
+    print('Sem permissão de escrita')
